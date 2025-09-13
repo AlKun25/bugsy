@@ -40,10 +40,28 @@ bugsy/
 
 ### Prerequisites
 
-- Python 3.8 or higher
-- pip package manager
+- Docker Desktop installed and running
+- Docker Compose (included with Docker Desktop)
+- Git for cloning the repository
 
-### Installation
+### 🐳 Docker Installation (Recommended)
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd bugsy
+
+# Set up environment variables
+cp .env.example .env
+# Edit .env and add your actual API keys:
+# OPENAI_API_KEY=your_openai_api_key_here
+# TESTSPRITE_API_KEY=your_testsprite_api_key_here
+
+# Build and run with Docker
+docker-compose up --build
+```
+
+### 🐍 Manual Installation (Alternative)
 
 ```bash
 # Clone the repository
@@ -51,7 +69,11 @@ git clone <repository-url>
 cd bugsy
 
 # Install dependencies
-pip install flask requests
+pip install flask requests openai python-dotenv python-docx pydantic
+
+# Set up environment variables
+cp .env.example .env
+# Edit .env and add your API keys
 
 # Run the application
 python app.py
@@ -61,6 +83,25 @@ python app.py
 
 - **Local**: http://127.0.0.1:5000
 - **Network**: http://[your-ip]:5000
+
+### 🐳 Docker Commands
+
+```bash
+# Start services in background
+docker-compose up -d
+
+# Stop services
+docker-compose down
+
+# View logs
+docker-compose logs -f
+
+# Rebuild containers
+docker-compose up --build
+
+# Remove everything (containers, networks, volumes)
+docker-compose down -v --remove-orphans
+```
 
 ## 🖥️ Frontend Interface
 
@@ -168,15 +209,98 @@ python app.py
 
 ### Backend
 - **Flask**: Web framework
-- **Python**: Core language
+- **Python 3.12**: Core language
+- **OpenAI**: AI-powered bug analysis
 - **Requests**: HTTP library for GitHub API
-- **AI Integration**: Custom bug analysis engine
+- **python-dotenv**: Environment variable management
+- **python-docx**: Document processing
+- **Pydantic**: Data validation
 
 ### Frontend
 - **HTML5**: Semantic markup
 - **CSS3**: Modern styling with Flexbox/Grid
 - **Vanilla JavaScript**: No external dependencies
 - **Responsive Design**: Mobile-first approach
+
+### 🐳 Docker Infrastructure
+- **Multi-stage Build**: Optimized Python 3.12-slim image
+- **Health Checks**: Container monitoring and restart policies
+- **Volume Mounts**: Persistent data storage
+- **Network Isolation**: Secure container networking
+- **Environment Management**: Secure API key handling
+
+## 🐳 Docker Setup Details
+
+### Container Architecture
+
+- **Base Image**: `python:3.12-slim` for optimal size and security
+- **Working Directory**: `/app` inside container
+- **Exposed Port**: `5000` (Flask development server)
+- **Health Check**: HTTP endpoint monitoring with automatic restarts
+- **Network**: Custom bridge network `bugsy_bugsy-network`
+
+### Volume Mounts
+
+```yaml
+volumes:
+  - ./get_test_stripe_plan:/app/get_test_stripe_plan  # Test data
+  - ./templates:/app/templates                        # HTML templates
+```
+
+### Environment Variables
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `OPENAI_API_KEY` | OpenAI API key for AI analysis | Yes |
+| `TESTSPRITE_API_KEY` | TestSprite API key | Yes |
+| `FLASK_ENV` | Flask environment (development/production) | No |
+| `PYTHONUNBUFFERED` | Python output buffering control | No |
+
+### Docker Files Overview
+
+- **`Dockerfile`**: Multi-stage build configuration
+- **`docker-compose.yml`**: Service orchestration and networking
+- **`.dockerignore`**: Build context optimization
+- **`.env`**: Environment variables (create from `.env.example`)
+- **`DOCKER_README.md`**: Detailed Docker documentation
+
+### Troubleshooting
+
+#### Docker Daemon Issues
+```bash
+# Check if Docker is running
+docker --version
+docker info
+
+# Start Docker Desktop (macOS/Windows)
+# Or start Docker service (Linux)
+sudo systemctl start docker
+```
+
+#### Container Issues
+```bash
+# Check container status
+docker-compose ps
+
+# View detailed logs
+docker-compose logs bugsy-flask-app
+
+# Restart specific service
+docker-compose restart bugsy-flask-app
+
+# Rebuild without cache
+docker-compose build --no-cache
+```
+
+#### Network Issues
+```bash
+# Check network connectivity
+docker network ls
+docker network inspect bugsy_bugsy-network
+
+# Test container connectivity
+docker-compose exec bugsy-flask-app curl http://localhost:5000/health
+```
 
 ## 📊 Sample Output
 
@@ -194,7 +318,10 @@ Bugsy generates comprehensive test plans including:
 - **Input Validation**: File type and size restrictions
 - **API Rate Limiting**: GitHub API usage optimization
 - **Error Sanitization**: Safe error message handling
-- **No Data Persistence**: Files processed in memory only
+- **Environment Variables**: Secure API key management via .env files
+- **Container Isolation**: Docker security boundaries
+- **No Secrets in Images**: API keys excluded from Docker builds
+- **Health Monitoring**: Container health checks and automatic restarts
 
 ## 📱 Responsive Design
 

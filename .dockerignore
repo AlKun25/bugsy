@@ -1,0 +1,92 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+build
+develop-eggs
+dist
+downloads
+eggs
+.eggs
+lib
+lib64
+parts
+sdist
+var
+wheels
+*.egg-info
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv
+env
+ENV
+.venv
+.env.local
+.env.development
+.env.test
+.env.production
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Documentation
+*.md
+README*
+CHANGELOG*
+LICENSE*
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Logs
+*.log
+logs
+
+# Temporary files
+*.tmp
+*.temp
+
+# Node modules (if any)
+node_modules
+npm-debug.log*
+
+# Coverage reports
+htmlcov
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+.hypothesis
+.pytest_cache
+
+# UV lock file (not needed in container)
+uv.lock
+
+# Trae config
+trae_config.yaml
+
+# Test files
+teststripe_test_cases.json

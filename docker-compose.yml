@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  bugsy-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bugsy-flask-app
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+      - PYTHONUNBUFFERED=1
+    env_file:
+      - .env
+    volumes:
+      # Mount the get_test_stripe_plan directory for persistent data
+      - ./get_test_stripe_plan:/app/get_test_stripe_plan
+      # Mount templates directory
+      - ./templates:/app/templates
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - bugsy-network
+
+networks:
+  bugsy-network:
+    driver: bridge
+
+volumes:
+  bugsy-data:
+    driver: local
