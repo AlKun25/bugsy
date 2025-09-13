@@ -1,0 +1,402 @@
+[
+  {
+    "id": "TC001",
+    "title": "Verify normal operation using provided example",
+    "description": "Test the usage example provided in the read.me file to ensure it executes without errors and performs as expected.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Load the usage example trajectory file provided in the read.me."
+      },
+      {
+        "type": "action",
+        "description": "Run the agent with the given configuration and tools."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that no exceptions or errors, such as 'str' object has no attribute 'output', are raised."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm the agent completes the tasks normally as per expected behavior."
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "Check error handling for 'str' object has no attribute 'output'",
+    "description": "Validate that the system provides meaningful error messages and handles the 'str' object attribute error gracefully.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Use the exact trajectory file and configuration that reproduces the 'str' object has no attribute 'output' error."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm the error is caught and logged appropriately."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that the system does not crash and fails gracefully."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that user-facing error messages are informative and guide towards resolution."
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "Validate agent tool configuration format",
+    "description": "Ensure the tool configuration for the agent accepts proper types and objects, not strings where object methods are expected.",
+    "category": "configuration",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Inspect the tools list supplied to the agent, verifying that each tool is correctly instantiated."
+      },
+      {
+        "type": "action",
+        "description": "Modify the tools list to include string names versus actual tool objects."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that improper tool configurations raise descriptive errors."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm that using correct tool objects allows successful agent execution."
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "Verify MCP server integration with Playwright",
+    "description": "Test the integration of the MCP server called 'playwright' to ensure the command and args configuration works correctly.",
+    "category": "integration",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Start the agent with the MCP server 'playwright' configured."
+      },
+      {
+        "type": "action",
+        "description": "Verify the 'npx' command with argument '@playwright/mcp@0.0.27' is called properly."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that MCP server responds as expected."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm no errors related to MCP server processes occur during execution."
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Test model provider and model configuration values",
+    "description": "Validate the model and model_provider configurations under models for correctness and compatibility with system requirements.",
+    "category": "configuration",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Review the model configurations for 'trae_agent_model' and 'lakeview_model' for correct parameters."
+      },
+      {
+        "type": "action",
+        "description": "Attempt to run the agent with altered or missing model_provider or model values."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify proper error messages are shown when invalid configurations are used."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm correct configurations lead to smooth model loading and usage."
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Check concurrency in parallel_tool_calls setting",
+    "description": "Test the 'parallel_tool_calls' boolean flag functionality in models to ensure concurrent tool executions behave correctly.",
+    "category": "performance",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Run the agent with 'parallel_tool_calls' set to true."
+      },
+      {
+        "type": "action",
+        "description": "Run the agent with 'parallel_tool_calls' set to false."
+      },
+      {
+        "type": "assertion",
+        "description": "Measure and compare performance metrics such as response time and resource usage."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure that parallel execution does not cause race conditions or errors."
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Validate max_tokens and max_steps limits",
+    "description": "Ensure the system respects the max_tokens in models and max_steps in agent configurations, preventing overload.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Configure the agent to use max_steps=200 and model max_tokens=4096."
+      },
+      {
+        "type": "action",
+        "description": "Submit inputs that exceed these limits."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the system truncates inputs or refuses further steps appropriately."
+      },
+      {
+        "type": "assertion",
+        "description": "Check for graceful handling or warnings regarding limit breaches."
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Verify error logging and debugging information presence",
+    "description": "Ensure that sufficient error and debug information is captured when issues like attribute errors occur.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Trigger the 'str' object has no attribute 'output' error by running the faulty example."
+      },
+      {
+        "type": "action",
+        "description": "Capture logs and output during the failure."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that the logs contain stack traces or messages that facilitate debugging."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm the error context includes configuration data where applicable."
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Test user authentication flow",
+    "description": "If applicable, verify that any user authentication required for model providers or MCP servers works correctly.",
+    "category": "security",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Attempt to authenticate with the model provider service."
+      },
+      {
+        "type": "action",
+        "description": "Use valid and invalid credentials."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that valid credentials permit operations."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm invalid credentials are rejected with appropriate error messages."
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Validate input data types in trajectory files",
+    "description": "Ensure that data types in trajectory YAML or JSON configuration files are validated to prevent runtime errors like attribute errors on strings.",
+    "category": "data validation",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Load a trajectory file with correct data types for keys like tools, models, and agents."
+      },
+      {
+        "type": "action",
+        "description": "Modify a trajectory file to replace an object with a string intentionally."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that the system identifies type mismatches upon loading the configuration."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm that errors direct users to fix the configuration before execution."
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "Check UI feedback for error states",
+    "description": "Test that any UI or CLI feedback informs the user appropriately when errors such as attribute errors occur.",
+    "category": "UI/UX",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Cause the 'str' object attribute error to trigger."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that error messages are presented clearly to the user."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that UI elements do not freeze or become unresponsive during errors."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm the UI suggests next steps or how to get help."
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "Measure performance under normal and error conditions",
+    "description": "Benchmark performance during normal operation and when errors such as the attribute error occur to ensure system stability.",
+    "category": "performance",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Run the agent with valid configuration and measure execution time and resource usage."
+      },
+      {
+        "type": "action",
+        "description": "Run the agent with configuration that causes the 'str' attribute error."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that performance degradation under error conditions is minimal and does not cause resource exhaustion."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm that system recovers or stops safely after error conditions."
+      }
+    ]
+  },
+  {
+    "id": "TC013",
+    "title": "Verify security of model API keys and credentials",
+    "description": "Validate that sensitive data such as API keys for OpenAI models are handled securely and not exposed in logs or UI.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Inspect logs and UI outputs for sensitive information when model connections are established."
+      },
+      {
+        "type": "action",
+        "description": "Attempt to trigger errors that might leak configuration including API keys."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm that no sensitive data is exposed in output or error messages."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify encryption or obfuscation of sensitive credentials in stored files."
+      }
+    ]
+  },
+  {
+    "id": "TC014",
+    "title": "Test recovery and retries with max_retries parameter",
+    "description": "Ensure the max_retries parameter for models behaves as specified, retrying on transient errors correctly.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Simulate transient failure in model API calls."
+      },
+      {
+        "type": "action",
+        "description": "Set max_retries to a defined value (e.g., 10)."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify system retries failed calls up to max_retries times."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm failure is surfaced only after all retries are exhausted."
+      }
+    ]
+  },
+  {
+    "id": "TC015",
+    "title": "Check user input validation on tools and MCP servers",
+    "description": "Test that user inputs for tools and MCP server configurations are validated to prevent malformed commands or injections.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Input potentially malicious command arguments or tool names."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that input sanitation prevents injection attacks or malformed commands."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm system raises warnings or errors for invalid inputs."
+      },
+      {
+        "type": "assertion",
+        "description": "Check logs to ensure no unexpected execution of harmful commands."
+      }
+    ]
+  },
+  {
+    "id": "TC016",
+    "title": "Validate documentation accuracy against system behavior",
+    "description": "Ensure that the documentation (read.me usage example) aligns with the system's current expected behavior and configuration.",
+    "category": "regression",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Follow the usage example instructions exactly as documented."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm the instructions produce expected behavior without errors."
+      },
+      {
+        "type": "action",
+        "description": "Compare documented configurations with actual system defaults and requirements."
+      },
+      {
+        "type": "assertion",
+        "description": "Report any discrepancies found between documentation and system."
+      }
+    ]
+  }
+]

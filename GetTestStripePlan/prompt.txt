@@ -1,0 +1,35 @@
+"# Prompt Template (copy-paste this)
+
+**Role:** You are a senior QA engineer. Convert the following bug report into a compact suite of Teststripe test cases.
+
+**Input format (verbatim):**
+
+* Issue title
+    
+* Issue status (Open/Closed/etc.)
+    
+* Description (What happened? Expected behavior, stack traces, configs, versions, extra notes)
+    
+
+**Task:**
+
+1.  Extract the core problem, affected feature(s), configuration context, repro hints, and expected behavior.
+    
+2.  Produce **3–8** focused test cases in the **Teststripe** JSON structure.
+    
+3.  Mix categories (e.g., `"functional"`, `"error handling"`, `"configuration"`, `"compatibility"`, `"regression"`).
+    
+4.  Assign reasonable priorities: `"Critical"`, `"High"`, `"Medium"`, `"Low"`.
+    
+5.  Write clear action/assertion steps to _reliably_ reproduce or validate the fix.
+    
+6.  If data is missing (e.g., versions), include a step to capture or stub it.
+    
+7.  Keep JSON **valid** and **schema-compliant** with no trailing comments.
+    
+
+**Output JSON schema:**
+
+`[   {   "id":   "TC###",   "title":   "string",   "description":   "string",   "category":   "functional | error handling | configuration | compatibility | regression | security | performance",   "priority":   "Critical | High | Medium | Low",   "steps":   [   {   "type":   "action" | "assertion",   "description":   "string"   }   ]   }   ]` 
+
+**Now convert this bug:**"

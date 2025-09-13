@@ -1,0 +1,55 @@
+TITLE: [Bug]:'str' object has no attribute 'output' #320
+STATUS: Open
+DESCRIPTION:
+What happened?
+Using the usage example provided in read.me, an error is displayed: 'str' object has no attribute 'output'. The following is the trajectory file. Could you please tell me what the problem is and how to solve it? Could any expert help solve it? Thank you!!!
+agents:
+  trae_agent:
+    enable_lakeview: true
+    model: trae_agent_model
+    max_steps: 200
+    tools:
+      - bash
+      - str_replace_based_edit_tool
+      - sequentialthinking
+      - task_done
+    allow_mcp_servers:
+      - playwright
+mcp_servers:
+  playwright:
+    command: npx
+    args:
+      - "@playwright/mcp@0.0.27"
+lakeview:
+  model: lakeview_model
+models:
+  trae_agent_model:
+    model_provider: openai
+    model: gpt-4
+    max_tokens: 4096
+    temperature: 0.5
+    top_p: 1
+    top_k: 0
+    max_retries: 10
+    parallel_tool_calls: true
+  lakeview_model:
+    model_provider: openai
+    model: gpt-4
+    max_tokens: 4096
+    temperature: 0.5
+    top_p: 1
+    top_k: 0
+    max_retries: 10
+    parallel_tool_calls: true
+
+What did you expect to happen?
+It operates normally without reporting any errors
+
+Traceback
+No response
+
+System / Python / dependency versions
+No response
+
+Additional info
+None
