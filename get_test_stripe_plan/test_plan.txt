@@ -1,0 +1,406 @@
+[
+  {
+    "id": "TC001",
+    "title": "Validate Successful Execution of Trajectory File Without Errors",
+    "description": "Test that the system processes the provided trajectory YAML configuration file correctly without throwing attribute errors such as 'str' object has no attribute 'output'.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Load the provided trajectory YAML configuration into the system as per usage example."
+      },
+      {
+        "type": "action",
+        "description": "Execute the agent defined in the trajectory file."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the system runs without raising the error 'str' object has no attribute 'output'."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm the agent completes execution successfully up to max_steps or finish condition."
+      },
+      {
+        "type": "action",
+        "description": "Capture and log any output responses from the system for review."
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "Verify Proper Attribute Handling in Agent's Internal Objects",
+    "description": "Ensure that all attributes accessed on objects within the agent's runtime are valid and exist, preventing attribute errors such as 'str' object has no attribute 'output'.",
+    "category": "error handling",
+    "priority": "Critical",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Run the agent with the given configuration that previously caused the 'str' object has no attribute 'output' error."
+      },
+      {
+        "type": "assertion",
+        "description": "Check runtime logs or debug traces to identify any attribute access violations."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm that internal objects have expected data types before attribute access."
+      },
+      {
+        "type": "action",
+        "description": "Validate code pathways that the 'output' attribute is accessed only on supported object types."
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "Test System Behavior When Trajectory File Has Invalid or Misconfigured Tools",
+    "description": "Check how the system behaves if the trajectory file references tools or components incorrectly, which may lead to attribute errors.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Modify the trajectory file to include an invalid tool name or malformed tool section."
+      },
+      {
+        "type": "action",
+        "description": "Attempt to execute the modified trajectory configuration."
+      },
+      {
+        "type": "assertion",
+        "description": "Observe system error messages and confirm graceful handling without crashes."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify errors clearly describe the misconfiguration and suggest correction steps."
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "Confirm Model Provider Authentication and Access",
+    "description": "Verify that the models specified in the trajectory file correctly authenticate and communicate with the external provider (OpenAI).",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Verify that valid API keys or credentials for the model provider are configured in the environment."
+      },
+      {
+        "type": "action",
+        "description": "Run the agent configuration that utilizes the 'trae_agent_model' and 'lakeview_model'."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm that authentication to the OpenAI provider succeeds without errors."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that responses are returned from OpenAI without authentication or permission issues."
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Validate MPC Server Configuration and Communication With Playwright",
+    "description": "Ensure that the mcp_servers configuration for 'playwright' server runs the specified command and arguments correctly.",
+    "category": "integration",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Start the system with the provided mcp_servers configuration using 'npx' and '@playwright/mcp@0.0.27'."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the Playwright MCP server process is spawned correctly."
+      },
+      {
+        "type": "action",
+        "description": "Initiate a sample command that utilizes MCP Playwright server."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify responses from Playwright are valid and no communication errors occur."
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Validate Handling of 'allow_mcp_servers' Permissions in Agent",
+    "description": "Test that the 'allow_mcp_servers' configuration correctly restricts or enables MCP servers a given agent can utilize.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Run the agent 'trae_agent' with 'allow_mcp_servers' configured to ['playwright']."
+      },
+      {
+        "type": "action",
+        "description": "Attempt to invoke MCP server commands from allowed and disallowed servers."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm commands are accepted only from allowed servers and rejected from others."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify rejection messages provide clear feedback about permission issues."
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Validate System Behavior with Missing or Mismatched Keys in Configuration File",
+    "description": "Test how the system reacts if the trajectory file is missing required keys or contains unexpected keys.",
+    "category": "error handling",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Create trajectory files with missing required sections such as 'agents' or 'models'."
+      },
+      {
+        "type": "action",
+        "description": "Try to execute the system with these incomplete configurations."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure that meaningful error messages are emitted that describe missing required fields."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify system does not crash and handles the error gracefully."
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Verify System Logging and Error Reporting for Attribute Errors",
+    "description": "Assess if the system logs appropriate stack traces or error messages when 'str' object attribute errors occur.",
+    "category": "error handling",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Run the agent with the trajectory file to reproduce the 'str' object attribute error."
+      },
+      {
+        "type": "assertion",
+        "description": "Check system logs and error reports for complete traceback details."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify error logs are stored or displayed in locations accessible to users or developers."
+      },
+      {
+        "type": "action",
+        "description": "Test that logs do not expose sensitive information during errors."
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Test Input Validation on the Trajectory Configuration File Format",
+    "description": "Ensure that input validation is performed to confirm proper YAML syntax and expected value types are used in the trajectory file.",
+    "category": "configuration",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Provide a malformed YAML file or invalid data types in fields (e.g., string instead of list)."
+      },
+      {
+        "type": "action",
+        "description": "Load the invalid configuration into the system."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the system rejects the invalid file with descriptive error messages."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure the system does not proceed to runtime execution with invalid configuration."
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Verify UI/UX Feedback When Configuration Errors Occur",
+    "description": "Test that a user interface (if any) displays useful feedback messages when configuration loading fails due to errors like attribute problems.",
+    "category": "UI/UX",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Load the problematic trajectory file via the UI or CLI user experience."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that error feedback describing issues such as 'str' object attribute errors is visible and understandable."
+      },
+      {
+        "type": "action",
+        "description": "Interact with UI elements for error information or help."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure UI usability is not compromised when showing error messages."
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "Check Performance Impact When Enabling Parallel Tool Calls",
+    "description": "Test system performance with 'parallel_tool_calls' set to true versus false in model configuration.",
+    "category": "performance",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Run the agent with 'parallel_tool_calls': true in model configurations."
+      },
+      {
+        "type": "action",
+        "description": "Measure execution time, CPU, and memory usage during execution."
+      },
+      {
+        "type": "action",
+        "description": "Run the agent with 'parallel_tool_calls': false."
+      },
+      {
+        "type": "assertion",
+        "description": "Compare performance metrics and verify system meets expected efficiency levels."
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "Test User Authentication and API Key Validation for Model Providers",
+    "description": "Ensure that the system requires and validates user or service credentials to access model provider APIs.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Attempt to run the agent without valid API keys configured."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the system rejects API calls and returns authentication error messages."
+      },
+      {
+        "type": "action",
+        "description": "Configure valid API keys and repeat execution."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify successful authentication and operation with valid credentials."
+      }
+    ]
+  },
+  {
+    "id": "TC013",
+    "title": "Verify System Handles Maximum Step Limits Appropriately",
+    "description": "Test that the system respects the 'max_steps' parameter defined in the agent configurations during execution.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Set 'max_steps' to a low number (e.g., 5) and execute agent."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm the agent stops execution after the defined number of steps."
+      },
+      {
+        "type": "action",
+        "description": "Repeat the test with higher 'max_steps' values."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify consistent adherence to max_steps limits."
+      }
+    ]
+  },
+  {
+    "id": "TC014",
+    "title": "Test System Response to Unexpected Object Types in Tool Outputs",
+    "description": "Check system robustness when tools unexpectedly return a string instead of expected object with an 'output' attribute.",
+    "category": "error handling",
+    "priority": "Critical",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Mock or simulate a tool returning a string instead of an object with an 'output' attribute."
+      },
+      {
+        "type": "action",
+        "description": "Run the agent execution."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the system catches and handles the type error gracefully without crashing."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm an informative error message is logged or displayed."
+      }
+    ]
+  },
+  {
+    "id": "TC015",
+    "title": "Integration Test Between Trajectory Configuration and External Services",
+    "description": "Verify overall integration of the trajectory file, model providers, mcp servers, and agent tools working together under expected conditions.",
+    "category": "integration",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Load full trajectory file into system."
+      },
+      {
+        "type": "action",
+        "description": "Execute agents and verify tools and servers interact properly."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm outputs from model providers are present and passed correctly to tools."
+      },
+      {
+        "type": "assertion",
+        "description": "Validate no attribute or communication errors occur during end-to-end execution."
+      }
+    ]
+  },
+  {
+    "id": "TC016",
+    "title": "Test Handling of Configuration Files with Unrecognized Model Providers or Versions",
+    "description": "Evaluate system reaction when trajectory file specifies unknown model providers or unsupported versions.",
+    "category": "configuration",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Modify trajectory to include unsupported model_provider or version fields in models section."
+      },
+      {
+        "type": "action",
+        "description": "Run system with this configuration file."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm system raises warnings or errors clearly indicating unsupported provider/version."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure system refuses to run with unsupported configurations to prevent runtime errors."
+      }
+    ]
+  }
+]

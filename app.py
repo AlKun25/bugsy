@@ -7,7 +7,12 @@ import requests
 import re
 from pathlib import Path
 import sys
-sys.path.append('./GetTestStripePlan')
+
+# Load environment variables from get_test_stripe_plan/.env
+from dotenv import load_dotenv
+load_dotenv('./get_test_stripe_plan/.env')
+
+sys.path.append('./get_test_stripe_plan')
 
 # Import our existing bug solver functionality
 from bug_solver import process_bug_report
@@ -83,10 +88,10 @@ def upload_file():
     """Handle file upload and process bug report."""
     try:
         # Check if file was uploaded
-        if 'bug_file' not in request.files:
+        if 'file' not in request.files:
             return jsonify({'error': 'No file uploaded'}), 400
         
-        file = request.files['bug_file']
+        file = request.files['file']
         
         # Check if file was selected
         if file.filename == '':
@@ -100,7 +105,7 @@ def upload_file():
         bug_content = file.read().decode('utf-8')
         
         # Read the default prompt file
-        prompt_file_path = Path('GetTestStripePlan/prompt.txt')
+        prompt_file_path = Path('get_test_stripe_plan/prompt.txt')
         if not prompt_file_path.exists():
             return jsonify({'error': 'Prompt file not found'}), 500
         
@@ -126,7 +131,12 @@ def upload_file():
             }
             test_cases_list.append(test_case_dict)
         
-        # Save to temporary file for download
+        # Save to test_plan.txt file (overwrite each time)
+        test_plan_path = Path('get_test_stripe_plan/test_plan.txt')
+        with open(test_plan_path, 'w', encoding='utf-8') as f:
+            json.dump(test_cases_list, f, indent=2, ensure_ascii=False)
+        
+        # Also save to temporary file for download
         with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False, encoding='utf-8') as temp_file:
             json.dump(test_cases_list, temp_file, indent=2, ensure_ascii=False)
             temp_file_path = temp_file.name
@@ -156,7 +166,7 @@ def process_github_issue():
         bug_content = fetch_github_issue(repo_url, issue_number)
         
         # Read the default prompt file
-        prompt_file_path = Path('GetTestStripePlan/prompt.txt')
+        prompt_file_path = Path('get_test_stripe_plan/prompt.txt')
         if not prompt_file_path.exists():
             return jsonify({'error': 'Prompt file not found'}), 500
         
@@ -182,7 +192,12 @@ def process_github_issue():
             }
             test_cases_list.append(test_case_dict)
         
-        # Save to temporary file for download
+        # Save to test_plan.txt file (overwrite each time)
+        test_plan_path = Path('get_test_stripe_plan/test_plan.txt')
+        with open(test_plan_path, 'w', encoding='utf-8') as f:
+            json.dump(test_cases_list, f, indent=2, ensure_ascii=False)
+        
+        # Also save to temporary file for download
         with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False, encoding='utf-8') as temp_file:
             json.dump(test_cases_list, temp_file, indent=2, ensure_ascii=False)
             temp_file_path = temp_file.name
