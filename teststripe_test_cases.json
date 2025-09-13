@@ -1,0 +1,202 @@
+[
+  {
+    "id": "TC001",
+    "title": "Validate basic configuration loading with provided example",
+    "description": "Test that the configuration example from README loads without 'str' object attribute errors",
+    "category": "functional",
+    "priority": "Critical",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Create configuration file with the exact YAML structure provided in the bug report"
+      },
+      {
+        "type": "action",
+        "description": "Initialize the application with the configuration file"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify no 'str' object has no attribute 'output' error occurs during initialization"
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm all agents and models are properly instantiated"
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "Reproduce 'str' object attribute error with exact configuration",
+    "description": "Reproduce the specific error condition to understand the root cause",
+    "category": "error handling",
+    "priority": "Critical",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Set up environment with trae_agent configuration including lakeview and MCP servers"
+      },
+      {
+        "type": "action",
+        "description": "Execute the usage example that triggers the 'str' object has no attribute 'output' error"
+      },
+      {
+        "type": "assertion",
+        "description": "Capture and verify the exact error message and stack trace"
+      },
+      {
+        "type": "assertion",
+        "description": "Identify which component (trae_agent, lakeview, or MCP server) is causing the attribute error"
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "Validate MCP server playwright integration",
+    "description": "Test that the playwright MCP server configuration is correctly parsed and initialized",
+    "category": "configuration",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Configure MCP server with playwright using npx @playwright/mcp@0.0.27"
+      },
+      {
+        "type": "action",
+        "description": "Verify playwright MCP server is accessible and responds correctly"
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm MCP server object has proper 'output' attribute or method"
+      },
+      {
+        "type": "assertion",
+        "description": "Validate that string objects are not incorrectly treated as MCP server instances"
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "Test model configuration parsing and instantiation",
+    "description": "Verify that model configurations (trae_agent_model, lakeview_model) are properly parsed",
+    "category": "configuration",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Parse model configurations with OpenAI provider settings"
+      },
+      {
+        "type": "action",
+        "description": "Initialize both trae_agent_model and lakeview_model instances"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify model objects have expected attributes and methods, not string representations"
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm model parameters (max_tokens, temperature, etc.) are correctly applied"
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Validate agent tools configuration and initialization",
+    "description": "Test that agent tools (bash, str_replace_based_edit_tool, etc.) are properly loaded",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Configure trae_agent with specified tools list"
+      },
+      {
+        "type": "action",
+        "description": "Initialize agent with tools and verify each tool is accessible"
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm tools are object instances, not string references"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify agent can execute basic operations with each configured tool"
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Test error handling for malformed configuration",
+    "description": "Verify proper error messages when configuration has type mismatches",
+    "category": "error handling",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Create configuration with intentional type mismatches (string where object expected)"
+      },
+      {
+        "type": "action",
+        "description": "Attempt to initialize application with malformed configuration"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify clear error messages are provided instead of attribute errors"
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm error handling doesn't result in 'str' object attribute access attempts"
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Regression test for README example compatibility",
+    "description": "Ensure the README usage example works correctly after bug fix",
+    "category": "regression",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Set up clean environment and install required dependencies"
+      },
+      {
+        "type": "action",
+        "description": "Execute the exact README usage example step by step"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify successful execution without any attribute errors"
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm expected functionality works as documented"
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Capture system and dependency version information",
+    "description": "Document environment details for reproducibility since versions were not provided",
+    "category": "compatibility",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Capture Python version, operating system, and key dependency versions"
+      },
+      {
+        "type": "action",
+        "description": "Document playwright MCP server version and Node.js version"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify compatibility matrix for supported versions"
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm bug reproduction across different environment configurations"
+      }
+    ]
+  }
+]
