@@ -1,0 +1,450 @@
+[
+  {
+    "id": "TC001",
+    "title": "File Upload - Valid Bug Report Analysis",
+    "description": "Verify that uploading a valid bug report file results in successful AI analysis and generation of a structured test plan.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the web application homepage."
+      },
+      {
+        "type": "action",
+        "description": "Select 'File Upload' mode."
+      },
+      {
+        "type": "action",
+        "description": "Drag and drop a valid bug report text file or use manual selection to upload it."
+      },
+      {
+        "type": "action",
+        "description": "Click on 'Upload & Analyze' button."
+      },
+      {
+        "type": "assertion",
+        "description": "System processes the file, invokes AI analysis engine, and generates a downloadable structured test plan file."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the test plan file contains at least 16 test cases covering functional, edge case, performance, security, and integration testing."
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "File Upload - Invalid File Format",
+    "description": "Ensure the system rejects unsupported or corrupted file uploads and displays an appropriate error message.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the web application."
+      },
+      {
+        "type": "action",
+        "description": "Select 'File Upload' input mode."
+      },
+      {
+        "type": "action",
+        "description": "Attempt to upload a file in an unsupported format (e.g., .exe or .jpg)."
+      },
+      {
+        "type": "action",
+        "description": "Click 'Upload & Analyze' button."
+      },
+      {
+        "type": "assertion",
+        "description": "System rejects the file and displays a user-friendly validation error message explaining acceptable file formats."
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "GitHub Issue Input - Valid Public Repository Issue",
+    "description": "Verify fetching a valid public GitHub issue using repository URL and issue number results in correct AI-generated test plan.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the web application."
+      },
+      {
+        "type": "action",
+        "description": "Select 'GitHub Issue' input mode."
+      },
+      {
+        "type": "action",
+        "description": "Input a valid public GitHub repository URL and a valid issue number."
+      },
+      {
+        "type": "action",
+        "description": "Click the 'Analyze GitHub Issue' button."
+      },
+      {
+        "type": "assertion",
+        "description": "System fetches the issue data from GitHub API successfully and generates a downloadable test plan file."
+      },
+      {
+        "type": "assertion",
+        "description": "Test plan contains structured and validated test cases with appropriate coverage consistent with AI analysis."
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "GitHub Issue Input - Invalid Repository URL",
+    "description": "Check system behavior when an invalid or malformed GitHub repository URL is provided for issue fetching.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the web application."
+      },
+      {
+        "type": "action",
+        "description": "Select 'GitHub Issue' input mode."
+      },
+      {
+        "type": "action",
+        "description": "Enter an invalid or malformed GitHub repository URL."
+      },
+      {
+        "type": "action",
+        "description": "Provide any issue number."
+      },
+      {
+        "type": "action",
+        "description": "Click on 'Analyze GitHub Issue'."
+      },
+      {
+        "type": "assertion",
+        "description": "System validates the URL, fails to fetch the issue, and displays a clear error message indicating the invalid repository URL."
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "GitHub Issue Input - Non-existent Issue Number",
+    "description": "Validate error handling when a valid GitHub repository URL is given but the issue number does not exist.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Open the web application and select 'GitHub Issue' mode."
+      },
+      {
+        "type": "action",
+        "description": "Enter a valid GitHub repository URL."
+      },
+      {
+        "type": "action",
+        "description": "Specify a non-existent issue number for the repository."
+      },
+      {
+        "type": "action",
+        "description": "Click 'Analyze GitHub Issue' button."
+      },
+      {
+        "type": "assertion",
+        "description": "System attempts to fetch issue, fails due to missing issue, and displays an appropriate user-friendly error notification."
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "GitHub API Rate Limit Handling",
+    "description": "Ensure the application properly detects GitHub API rate limit exceedance and shows a suitable error message to the user.",
+    "category": "error handling",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Simulate multiple GitHub API requests to exceed the rate limit."
+      },
+      {
+        "type": "action",
+        "description": "Attempt to fetch GitHub issue using valid URL and issue number."
+      },
+      {
+        "type": "assertion",
+        "description": "System detects API rate limit error and displays a clear informative message about rate limiting and retry policies."
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Responsive UI Verification Across Devices",
+    "description": "Confirm that the frontend web interface is fully responsive and usable on desktop, tablet, and mobile screen sizes.",
+    "category": "ui",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Open the web application on desktop browser."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm layout is organized, drag-and-drop and form inputs are fully functional without visual glitches."
+      },
+      {
+        "type": "action",
+        "description": "Open the same web application URL on a tablet device or emulate tablet viewport."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify interface elements adapt properly and remain fully functional."
+      },
+      {
+        "type": "action",
+        "description": "Access the web app on a mobile device or emulate mobile viewport."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure all interactive components are accessible, readable, and the drag-and-drop/file selection and GitHub issue input features remain usable."
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "API Key Security Verification in Environment Configuration",
+    "description": "Verify that API keys and sensitive data are securely handled via environment variables and not exposed in Docker images or logs.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Inspect the deployed Docker images and check contents for presence of API keys or secrets."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm no API keys or secrets are embedded in Docker images or logs."
+      },
+      {
+        "type": "action",
+        "description": "Review environment files (.env) are excluded from Docker image builds and secrets are injected at runtime."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify environment variables are loaded securely with python-dotenv on app startup."
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Docker Container Health Check and Auto-restart",
+    "description": "Ensure the Docker container passes configured health checks and restarts automatically upon failure.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Start the Docker container deployment."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify health check endpoint responds with success status indicating container is healthy."
+      },
+      {
+        "type": "action",
+        "description": "Simulate application failure inside the container (e.g., crash or stop the app service)."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm Docker detects unhealthy status and automatically restarts the container."
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Comprehensive Frontend Error Handling",
+    "description": "Validate all user inputs receive proper validation and error feedback in the UI, including unsupported files, invalid URLs, missing fields, and API errors.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "On File Upload mode, try uploading empty file, unsupported format, and large files."
+      },
+      {
+        "type": "assertion",
+        "description": "Dynamic user-friendly error messages are shown for each invalid case."
+      },
+      {
+        "type": "action",
+        "description": "On GitHub Issue mode, leave the URL field empty, enter malformed URLs, and invalid issue numbers."
+      },
+      {
+        "type": "assertion",
+        "description": "Input validation errors appear immediately and prevent submission."
+      },
+      {
+        "type": "action",
+        "description": "Simulate backend errors via API failure or network disruption."
+      },
+      {
+        "type": "assertion",
+        "description": "Display appropriate error messages and guidance to the user about retrying or checking connectivity."
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "AI Bug Analysis Engine Test Plan Validation",
+    "description": "Ensure test plans generated by the AI engine conform to defined Pydantic data models with correct structure and data types.",
+    "category": "integration",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Trigger analysis of a valid bug report file via CLI or API."
+      },
+      {
+        "type": "action",
+        "description": "Obtain the generated test plan output."
+      },
+      {
+        "type": "assertion",
+        "description": "Validate the test plan JSON or text file conforms to Pydantic schema including required fields, types, and test case coverage."
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "CLI Interface Functional Test",
+    "description": "Verify the CLI interface accepts bug report input, processes it through the AI engine, and outputs a test plan matching web interface results.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Invoke the CLI with a valid bug report file as input."
+      },
+      {
+        "type": "assertion",
+        "description": "CLI runs analysis successfully, outputs a test plan file."
+      },
+      {
+        "type": "action",
+        "description": "Compare CLI output test plan with web interface generated test plan for the same input."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm parity in test case counts, categories, and data structure."
+      }
+    ]
+  },
+  {
+    "id": "TC013",
+    "title": "Restful API Endpoint Functional Testing",
+    "description": "Test all RESTful API endpoints for file upload, GitHub issue processing, file download, and main interface serving to ensure correctness and reliability.",
+    "category": "integration",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send a valid bug report file via API upload endpoint."
+      },
+      {
+        "type": "assertion",
+        "description": "Receive success response with analysis result and test plan file link."
+      },
+      {
+        "type": "action",
+        "description": "Call GitHub issue API endpoint with valid data."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm correct retrieval, processing, and generation of test plan."
+      },
+      {
+        "type": "action",
+        "description": "Request the generated test plan file download via API."
+      },
+      {
+        "type": "assertion",
+        "description": "File is successfully downloaded and is intact."
+      },
+      {
+        "type": "action",
+        "description": "Access main interface API endpoint."
+      },
+      {
+        "type": "assertion",
+        "description": "Correct HTML and resources are served."
+      }
+    ]
+  },
+  {
+    "id": "TC014",
+    "title": "File Upload Validation - Large File and Temporary Storage Cleanup",
+    "description": "Test the system's ability to handle large bug report files within size limits and verify temporary files cleanup after processing.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Upload a large but valid bug report file near the configured size limit."
+      },
+      {
+        "type": "assertion",
+        "description": "System processes the file successfully without crashes or timeouts."
+      },
+      {
+        "type": "action",
+        "description": "Check the temporary storage location after processing completes."
+      },
+      {
+        "type": "assertion",
+        "description": "Temporary uploaded files are deleted or cleaned up according to policy."
+      }
+    ]
+  },
+  {
+    "id": "TC015",
+    "title": "Integration Test - AI Analysis Engine with Frontend and Backend",
+    "description": "Verify end-to-end flow from frontend input through backend AI engine to test plan generation and download works seamlessly.",
+    "category": "integration",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "In the web UI, upload a valid bug report file and submit."
+      },
+      {
+        "type": "assertion",
+        "description": "Frontend receives analysis completion event and makes generated test plan available."
+      },
+      {
+        "type": "action",
+        "description": "Download and open the test plan file."
+      },
+      {
+        "type": "assertion",
+        "description": "Content matches expectations, contains diverse test cases across categories."
+      }
+    ]
+  },
+  {
+    "id": "TC016",
+    "title": "Error Handling - Network Failure During GitHub Issue Fetch",
+    "description": "Simulate network failure during GitHub API calls and confirm the system gracefully handles the error with informative user feedback.",
+    "category": "error handling",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "In GitHub Issue mode, initiate fetch with valid repository and issue number while disconnecting network or blocking API."
+      },
+      {
+        "type": "assertion",
+        "description": "Application detects network failure and displays a clear error message advising the user to check connectivity."
+      }
+    ]
+  }
+]

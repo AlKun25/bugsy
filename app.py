@@ -16,6 +16,7 @@ sys.path.append('./get_test_stripe_plan')
 
 # Import our existing bug solver functionality
 from bug_solver import process_bug_report
+from revision_engine import OpenAIRevisionEngine
 
 app = Flask(__name__, template_folder='frontend/templates', static_folder='frontend/static')
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
@@ -223,6 +224,154 @@ def download_file(filename):
             return jsonify({'error': 'File not found'}), 404
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@app.route('/revise-code', methods=['POST'])
+def revise_code():
+    """Analyze TestSprite report and generate AI-powered code revisions."""
+    try:
+        data = request.get_json()
+        
+        if not data:
+            return jsonify({'error': 'No JSON data provided'}), 400
+        
+        # Get report path - can be from uploaded file or existing report
+        report_path = data.get('report_path')
+        apply_fixes = data.get('apply_fixes', False)  # Whether to automatically apply fixes
+        
+        if not report_path:
+            # Check if there's a default test results file
+            default_report = os.path.join(os.getcwd(), 'testsprite_tests', 'tmp', 'test_results.json')
+            if os.path.exists(default_report):
+                report_path = default_report
+            else:
+                return jsonify({'error': 'No test report provided and no default report found'}), 400
+        
+        # Validate report file exists
+        if not os.path.exists(report_path):
+            return jsonify({'error': f'Test report file not found: {report_path}'}), 404
+        
+        # Initialize revision engine
+        try:
+            engine = OpenAIRevisionEngine()
+        except ValueError as e:
+            return jsonify({'error': f'OpenAI API configuration error: {str(e)}'}), 500
+        
+        # Analyze failures and generate revisions
+        project_root = os.getcwd()
+        revisions = engine.analyze_and_fix_failures(report_path, project_root)
+        
+        if not revisions:
+            return jsonify({
+                'success': True,
+                'message': 'No code revisions needed - all tests are passing or no fixable issues found',
+                'revisions': [],
+                'applied': False
+            })
+        
+        # Convert revisions to JSON-serializable format
+        revisions_data = []
+        for revision in revisions:
+            revision_dict = {
+                'file_path': revision.file_path,
+                'original_code': revision.original_code,
+                'revised_code': revision.revised_code,
+                'explanation': revision.explanation,
+                'confidence_score': revision.confidence_score,
+                'addresses_test_ids': revision.addresses_test_ids,
+                'change_type': revision.change_type
+            }
+            
+            # Add git diff if available
+            if revision.git_diff:
+                revision_dict['git_diff'] = {
+                    'unified_diff': revision.git_diff.unified_diff,
+                    'additions': revision.git_diff.additions,
+                    'deletions': revision.git_diff.deletions
+                }
+            
+            revisions_data.append(revision_dict)
+        
+        # Apply fixes if requested
+        applied_results = {}
+        if apply_fixes:
+            applied_results = engine.apply_revisions(revisions, backup=True)
+            
+            # Generate and save revision report
+            report_content = engine.generate_revision_report(revisions, applied_results)
+            report_filename = f"revision_report_{int(os.path.getmtime(report_path))}.md"
+            
+            with tempfile.NamedTemporaryFile(mode='w', suffix='.md', delete=False, encoding='utf-8') as temp_file:
+                temp_file.write(report_content)
+                temp_report_path = temp_file.name
+            
+            return jsonify({
+                'success': True,
+                'message': f'Generated and applied {len(revisions)} AI-powered code revisions',
+                'revisions': revisions_data,
+                'applied': True,
+                'results': applied_results,
+                'report_download_url': f'/download/{os.path.basename(temp_report_path)}'
+            })
+        else:
+            return jsonify({
+                'success': True,
+                'message': f'Generated {len(revisions)} AI-powered code revision suggestions',
+                'revisions': revisions_data,
+                'applied': False
+            })
+        
+    except Exception as e:
+        return jsonify({'error': f'Code revision failed: {str(e)}'}), 500
+
+@app.route('/apply-revision', methods=['POST'])
+def apply_single_revision():
+    """Apply a single code revision."""
+    try:
+        data = request.get_json()
+        
+        if not data:
+            return jsonify({'error': 'No JSON data provided'}), 400
+        
+        # Extract revision data
+        file_path = data.get('file_path')
+        original_code = data.get('original_code')
+        revised_code = data.get('revised_code')
+        
+        if not all([file_path, original_code, revised_code]):
+            return jsonify({'error': 'Missing required fields: file_path, original_code, revised_code'}), 400
+        
+        # Validate file exists
+        if not os.path.exists(file_path):
+            return jsonify({'error': f'File not found: {file_path}'}), 404
+        
+        # Create backup
+        backup_path = f"{file_path}.backup"
+        with open(file_path, 'r') as original:
+            with open(backup_path, 'w') as backup_file:
+                backup_file.write(original.read())
+        
+        # Read current file
+        with open(file_path, 'r') as f:
+            current_content = f.read()
+        
+        # Apply revision
+        if original_code in current_content:
+            new_content = current_content.replace(original_code, revised_code, 1)
+            
+            # Write updated content
+            with open(file_path, 'w') as f:
+                f.write(new_content)
+            
+            return jsonify({
+                'success': True,
+                'message': f'Successfully applied revision to {file_path}',
+                'backup_created': backup_path
+            })
+        else:
+            return jsonify({'error': 'Original code not found in file - file may have been modified'}), 400
+            
+    except Exception as e:
+        return jsonify({'error': f'Failed to apply revision: {str(e)}'}), 500
 
 if __name__ == '__main__':
     # Create templates directory if it doesn't exist

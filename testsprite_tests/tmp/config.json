@@ -1,0 +1,16 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:5000",
+  "executionArgs": {
+    "projectName": "bugsy",
+    "projectPath": "/Users/luxin/Desktop/SF AI Hackathon 2025/bugsy",
+    "testIds": [],
+    "additionalInstruction": "Run comprehensive frontend tests to identify any failures or issues with the current implementation. Focus on file upload functionality, GitHub issue integration, and overall user interface behavior.",
+    "envs": {
+      "API_KEY": "sk-user-y8Fb7XISei5enhT4zrXQVbpY0d6VhltHthurg1euNMEiuzKqFK4CjiGW_v4VPsD1EogVRbNMwrKysmWHDJmBBh-ANvrkqrGvPDZZ28B93jNhh9-lD_ZwczoDEKIA4uWdn2s"
+    }
+  },
+  "proxy": "http://901dd774-a9d2-42f3-a050-fb9464f80171:82sVAKDEdYpkXBL4nRdIp3Idssb2h5Rv@tun.testsprite.com:8080"
+}

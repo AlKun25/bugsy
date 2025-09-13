@@ -1,0 +1,159 @@
+{
+  "meta": {
+    "project": "Bugsy - AI-Powered Bug Analysis Tool",
+    "date": "2025-09-13",
+    "prepared_by": "Software Development Manager"
+  },
+  "product_overview": "Bugsy is an AI-powered tool that transforms bug reports into comprehensive and actionable test plans. It supports input through direct file uploads or GitHub issue integration, providing a modern and responsive web interface for users to seamlessly analyze bugs and generate detailed testing recommendations.",
+  "core_goals": [
+    "Provide an intelligent and accurate analysis of bug reports using AI.",
+    "Support multiple input methods including file uploads and GitHub issue fetching.",
+    "Generate detailed and structured test plans with validation.",
+    "Offer a user-friendly, responsive web interface accessible across desktop, tablet, and mobile devices.",
+    "Ensure secure handling of API keys and sensitive data through environment configuration.",
+    "Deliver a robust, containerized application for easy deployment and scalability.",
+    "Implement comprehensive error handling and input validation to enhance user experience and system reliability."
+  ],
+  "key_features": [
+    "Dual Input Modes: Accepts bug reports via file upload or GitHub issue URL and number.",
+    "AI-Powered Bug Analysis Engine: Processes bug reports to generate test plans with over 16 test cases covering functional, edge case, performance, security, and integration testing.",
+    "Modern Responsive Web Interface: HTML5, CSS3, and JavaScript based with drag-and-drop file upload and intuitive forms for GitHub issue input.",
+    "GitHub Integration: Fetch and analyze issues directly from public GitHub repositories via API.",
+    "RESTful API Endpoints: For file uploads, GitHub issue analysis, file downloads, and main interface serving.",
+    "Secure Environment Variable Management: Handles API keys with python-dotenv and excludes secrets from Docker images.",
+    "Dockerized Deployment: Multi-stage Docker builds, health checks, volume mounts, and custom networking for secure and reliable operation.",
+    "Comprehensive Error Handling: Covers invalid inputs, API rate limits, file validation errors, and user feedback mechanisms.",
+    "CLI Interface: Allows running analysis from the command line without the web interface."
+  ],
+  "user_flow_summary": [
+    "User accesses the web application via browser on any device.",
+    "User selects input mode: either 'File Upload' or 'GitHub Issue'.",
+    "If 'File Upload' is chosen, user drags and drops a bug report text file or selects it manually.",
+    "User submits the file for analysis by clicking 'Upload & Analyze'.",
+    "Backend validates, processes the file using AI-powered Bug Analysis Engine, generates a test plan.",
+    "User downloads the generated test_plan.txt file via provided link.",
+    "If 'GitHub Issue' is chosen, user inputs repository URL and issue number.",
+    "User submits the issue for analysis by clicking 'Analyze GitHub Issue'.",
+    "System fetches issue data from GitHub API, runs AI analysis, and generates test plan.",
+    "User downloads the generated test plan file.",
+    "Throughout the process, the interface provides real-time feedback and error messages if needed."
+  ],
+  "validation_criteria": [
+    "Successful parsing and validation of uploaded bug report files with proper error messages for invalid files.",
+    "Accurate fetching and processing of GitHub issues including proper handling of invalid URLs, missing issues, and API rate limits.",
+    "Generation of test plans conforming to Pydantic data models ensuring structured, validated outputs.",
+    "Responsive behavior and usability of the frontend interface on desktop, tablet, and mobile screen sizes.",
+    "Security validation ensuring no API keys or secrets are exposed in the Docker images or logs.",
+    "Container health checks passing with automatic restarts on failure as configured in the Docker setup.",
+    "Proper error handling displaying user-friendly messages for all supported failure modes, including upload errors and GitHub integration problems.",
+    "CLI interface processes bug reports and generates test plans accurately matching the web-based functionality."
+  ],
+  "code_summary": {
+    "tech_stack": [
+      "Python 3.12",
+      "Flask",
+      "OpenAI API",
+      "Docker",
+      "HTML5",
+      "CSS3",
+      "JavaScript",
+      "GitHub API",
+      "Pydantic",
+      "python-dotenv",
+      "python-docx",
+      "Requests"
+    ],
+    "features": [
+      {
+        "name": "Flask Web Server",
+        "description": "Main web application server that handles HTTP requests and serves the frontend interface",
+        "files": [
+          "app.py"
+        ]
+      },
+      {
+        "name": "File Upload Interface",
+        "description": "Web interface for uploading bug report files with drag-and-drop functionality",
+        "files": [
+          "frontend/templates/index.html",
+          "app.py"
+        ]
+      },
+      {
+        "name": "GitHub Issue Integration",
+        "description": "Feature to fetch and analyze GitHub issues directly from repository URLs",
+        "files": [
+          "app.py"
+        ]
+      },
+      {
+        "name": "Bug Analysis Engine",
+        "description": "Core AI-powered bug analysis system that processes bug reports and generates test plans",
+        "files": [
+          "get_test_stripe_plan/bug_solver.py"
+        ]
+      },
+      {
+        "name": "Test Plan Generation",
+        "description": "Structured test case generation with Pydantic models for validation",
+        "files": [
+          "get_test_stripe_plan/bug_solver.py"
+        ]
+      },
+      {
+        "name": "CLI Interface",
+        "description": "Command-line interface for processing bug reports without the web interface",
+        "files": [
+          "get_test_stripe_plan/main.py",
+          "main.py"
+        ]
+      },
+      {
+        "name": "Docker Containerization",
+        "description": "Complete Docker setup with multi-stage builds, health checks, and volume mounts",
+        "files": [
+          "Dockerfile",
+          "docker-compose.yml",
+          ".dockerignore"
+        ]
+      },
+      {
+        "name": "Environment Configuration",
+        "description": "Secure environment variable management for API keys and configuration",
+        "files": [
+          ".env.example",
+          "get_test_stripe_plan/.env"
+        ]
+      },
+      {
+        "name": "Frontend Templates",
+        "description": "Responsive HTML templates with modern CSS and JavaScript for user interface",
+        "files": [
+          "frontend/templates/index.html"
+        ]
+      },
+      {
+        "name": "API Endpoints",
+        "description": "RESTful API endpoints for file upload, GitHub issue processing, and file downloads",
+        "files": [
+          "app.py"
+        ]
+      },
+      {
+        "name": "File Processing",
+        "description": "Secure file handling with validation, temporary storage, and cleanup",
+        "files": [
+          "app.py"
+        ]
+      },
+      {
+        "name": "Error Handling",
+        "description": "Comprehensive error handling for API failures, file validation, and user feedback",
+        "files": [
+          "app.py",
+          "get_test_stripe_plan/bug_solver.py"
+        ]
+      }
+    ]
+  }
+}

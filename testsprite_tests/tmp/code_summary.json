@@ -1,0 +1,78 @@
+{
+  "tech_stack": [
+    "Python 3.12",
+    "Flask",
+    "OpenAI API",
+    "Docker",
+    "HTML5",
+    "CSS3",
+    "JavaScript",
+    "GitHub API",
+    "Pydantic",
+    "python-dotenv",
+    "python-docx",
+    "Requests"
+  ],
+  "features": [
+    {
+      "name": "Flask Web Server",
+      "description": "Main web application server that handles HTTP requests and serves the frontend interface",
+      "files": ["app.py"]
+    },
+    {
+      "name": "File Upload Interface",
+      "description": "Web interface for uploading bug report files with drag-and-drop functionality",
+      "files": ["frontend/templates/index.html", "app.py"]
+    },
+    {
+      "name": "GitHub Issue Integration",
+      "description": "Feature to fetch and analyze GitHub issues directly from repository URLs",
+      "files": ["app.py"]
+    },
+    {
+      "name": "Bug Analysis Engine",
+      "description": "Core AI-powered bug analysis system that processes bug reports and generates test plans",
+      "files": ["get_test_stripe_plan/bug_solver.py"]
+    },
+    {
+      "name": "Test Plan Generation",
+      "description": "Structured test case generation with Pydantic models for validation",
+      "files": ["get_test_stripe_plan/bug_solver.py"]
+    },
+    {
+      "name": "CLI Interface",
+      "description": "Command-line interface for processing bug reports without the web interface",
+      "files": ["get_test_stripe_plan/main.py", "main.py"]
+    },
+    {
+      "name": "Docker Containerization",
+      "description": "Complete Docker setup with multi-stage builds, health checks, and volume mounts",
+      "files": ["Dockerfile", "docker-compose.yml", ".dockerignore"]
+    },
+    {
+      "name": "Environment Configuration",
+      "description": "Secure environment variable management for API keys and configuration",
+      "files": [".env.example", "get_test_stripe_plan/.env"]
+    },
+    {
+      "name": "Frontend Templates",
+      "description": "Responsive HTML templates with modern CSS and JavaScript for user interface",
+      "files": ["frontend/templates/index.html"]
+    },
+    {
+      "name": "API Endpoints",
+      "description": "RESTful API endpoints for file upload, GitHub issue processing, and file downloads",
+      "files": ["app.py"]
+    },
+    {
+      "name": "File Processing",
+      "description": "Secure file handling with validation, temporary storage, and cleanup",
+      "files": ["app.py"]
+    },
+    {
+      "name": "Error Handling",
+      "description": "Comprehensive error handling for API failures, file validation, and user feedback",
+      "files": ["app.py", "get_test_stripe_plan/bug_solver.py"]
+    }
+  ]
+}
